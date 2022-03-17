@@ -29,19 +29,18 @@ class RomanNumberTest {
 
 
     @Test
-    @Disabled
     public void checkOnes(){
         // Arrange
         String [] ones = {
                 "I",
-                "II",
-                "III",
-                "IIII",
-                "iiiii",
-                "IiIiIi",
-                "iiIIiiIIi",
-                "IIiiIIiiII",
-                "iIiIiIiIiIi"
+                "I".repeat(2),
+                "i".repeat(3),
+                "Ii".repeat(2),
+                "i".repeat(5),
+                "I".repeat(6),
+                "i".repeat(7),
+                "I".repeat(8),
+                "i".repeat(9),
         };
         int [] expected = {
                 1,
@@ -68,8 +67,18 @@ class RomanNumberTest {
     }
 
     @Test
-    @Disabled
-    public void checkAsArabic() {
+    public void checkBadOnes(){
+        NumberFormatException thrown2 = Assertions.assertThrows(NumberFormatException.class,
+                () -> RomanNumber.parse(" "),
+                "NumberFormatException was expected as nothing is an error!");
+
+        NumberFormatException thrown = Assertions.assertThrows(NumberFormatException.class,
+                () -> RomanNumber.parse("I".repeat(10)),
+                "NumberFormatException was expected as 10 'I's should not be valid!");
+    }
+
+    @Test
+    public void checkValidParse() {
         // Arrange
         String [] roman = {
                 "I",
@@ -102,7 +111,7 @@ class RomanNumberTest {
 
         // Assert
         for (int i = 0; i < roman.length; i++) {
-            Assertions.assertEquals(expected[i], results[i]);
+            Assertions.assertEquals(expected[i], results[i], roman[i]);
         }
     }
 }

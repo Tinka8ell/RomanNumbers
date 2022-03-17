@@ -50,7 +50,6 @@ public class RomanNumber {
     private RomanNumber(int i)
             throws NumberFormatException{
         value = i;
-        if (value < MIN_INT_VALUE || value > MAX_INT_VALUE) throw new NumberFormatException("Value out of range");
     }
      */
 
@@ -76,13 +75,11 @@ public class RomanNumber {
          */
         int value;
         String validated = s.trim().toUpperCase();
-        // validate input only has valid characters
-        /*
-        if (validated.chars().anyMatch(a -> numerals.indexOf(a) == -1))
-            throw new NumberFormatException(validated + " contains characters that are not roman numerals");
 
-         */
+        // validate input only has valid characters
         value = validated.chars().map(RomanNumber::arabicValue).sum();
+        if (value < MIN_INT_VALUE || value > MAX_INT_VALUE)
+            throw new NumberFormatException("Value of '" + validated + "' is " + value + " but this is out of range");
         return value;
     }
 
