@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be02df8a-8eb6-4679-a2bb-c6a50ad187ce" name="Changes" comment="" />
+    <list default="true" id="be02df8a-8eb6-4679-a2bb-c6a50ad187ce" name="Changes" comment="Initial Setup">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tinkabell/roman/RomanNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tinkabell/roman/RomanNumber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tinkabell/roman/RomanNumberTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tinkabell/roman/RomanNumberTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,9 +83,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="RomanNumberTest.checkAsRoman" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="RomanNumbers" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tinkabell.roman.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.tinkabell.roman" />
+      <option name="MAIN_CLASS_NAME" value="com.tinkabell.roman.RomanNumberTest" />
+      <option name="METHOD_NAME" value="checkAsRoman" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.RomanNumberTest" />
+        <item itemvalue="JUnit.RomanNumberTest.checkAsRoman" />
         <item itemvalue="Application.RomanNumber" />
       </list>
     </recent_temporary>
@@ -95,6 +116,14 @@
       <option name="presentableId" value="Default" />
       <updated>1647496207860</updated>
     </task>
+    <task id="LOCAL-00001" summary="Initial Setup">
+      <created>1647500956445</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1647500956445</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -107,5 +136,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Setup" />
   </component>
 </project>
