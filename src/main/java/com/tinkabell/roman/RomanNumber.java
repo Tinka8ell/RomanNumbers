@@ -36,18 +36,17 @@ public class RomanNumber {
     // the values of those characters referenced by that index
     private final static int[] values = {1, 5, 10, 50, 100, 500, 1000};
 
-    /*
-    private int arabicValue(char c) throws NumberFormatException {
-        int value = 0;
+    private static int arabicValue(int c) throws NumberFormatException {
+        int value;
         try {
             value = values[numerals.indexOf(c)];
-        } catch (Exception e){
-            System.err.println("Got exception: " + e + " with character#: " + c);
-            throw new NumberFormatException("Invalid character: " + c);
+        } catch (ArrayIndexOutOfBoundsException e){
+            throw new NumberFormatException("Invalid character: " + (char) c);
         }
         return value;
     }
 
+    /*
     private RomanNumber(int i)
             throws NumberFormatException{
         value = i;
@@ -75,7 +74,15 @@ public class RomanNumber {
         Back to the drawing board and programming 101:
         KISS!
          */
-        int value = 1; // placer holder
+        int value;
+        String validated = s.trim().toUpperCase();
+        // validate input only has valid characters
+        /*
+        if (validated.chars().anyMatch(a -> numerals.indexOf(a) == -1))
+            throw new NumberFormatException(validated + " contains characters that are not roman numerals");
+
+         */
+        value = validated.chars().map(RomanNumber::arabicValue).sum();
         return value;
     }
 
