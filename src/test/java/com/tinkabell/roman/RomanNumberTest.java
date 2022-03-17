@@ -1,94 +1,77 @@
 package com.tinkabell.roman;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static com.tinkabell.roman.RomanNumber.parseRoman;
-import static org.junit.jupiter.api.Assertions.*;
+import java.lang.NumberFormatException;
 
 class RomanNumberTest {
 
     @Test
+    public void checkCase1(){
+        Assertions.assertEquals(1, RomanNumber.parse("I"));
+        Assertions.assertEquals(1, RomanNumber.parse(" i "));
+    }
+
+    @Test
+    public void checkCase2(){
+        Assertions.assertEquals(2, RomanNumber.parse("II"));
+        Assertions.assertEquals(2, RomanNumber.parse(" iI "));
+    }
+
+    @Test
+    public void checkInvalid(){
+        NumberFormatException thrown = Assertions.assertThrows(NumberFormatException.class,
+                () -> RomanNumber.parse("z"),
+                "NumberFormatException was expected");
+    }
+
+
+    @Test
+    @Disabled
     public void checkOnes(){
         // Arrange
         String [] ones = {
                 "I",
                 "II",
                 "III",
-                "IIII"
+                "IIII",
+                "iiiii",
+                "IiIiIi",
+                "iiIIiiIIi",
+                "IIiiIIiiII",
+                "iIiIiIiIiIi"
         };
-        String [] expected = {
-                "1",
-                "2",
-                "3",
-                "4,"
+        int [] expected = {
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
         };
 
         // Act
-        String[] results = new String[ones.length];
+        int[] results = new int[ones.length];
         for (int i = 0; i < results.length; i++) {
-            results[i] = parseRoman(ones[i]).asArabic();
+            results[i] = RomanNumber.parse(ones[i]);
         }
 
         // Assert
         for (int i = 0; i < ones.length; i++) {
-            assertEquals(expected[i], results[i]);
+            Assertions.assertEquals(expected[i], results[i]);
         }
     }
 
     @Test
-    public void checkParseRoman() {
-        // Arrange
-        RomanNumber number = parseRoman("1");
-
-        // Act
-        int result = 1;
-
-        // Assert
-        assertEquals(result, number.value);
-    }
-
-    @Test
-    public void checkAsRoman() {
-        // Arrange
-        String [] numbers = {
-                "1",
-                "3",
-                "4",
-                "5",
-                "8",
-                "9",
-                "10",
-                "2021",
-                "1959"
-        };
-        String [] expected = {
-                "I",
-                "III",
-                "IV",
-                "V",
-                "VIII",
-                "IX",
-                "X",
-                "MMXXI",
-                "MCMLIX"
-        };
-
-        // Act
-        String[] results = new String[numbers.length];
-        for (int i = 0; i < results.length; i++) {
-            results[i] = parseRoman(numbers[i]).asRoman();
-        }
-
-        // Assert
-        for (int i = 0; i < numbers.length; i++) {
-            assertEquals(expected[i], results[i]);
-        }
-    }
-
-    @Test
+    @Disabled
     public void checkAsArabic() {
         // Arrange
-        String [] numbers = {
+        String [] roman = {
                 "I",
                 "III",
                 "IV",
@@ -99,27 +82,27 @@ class RomanNumberTest {
                 "MMXXI",
                 "MCMLIX"
         };
-        String [] expected = {
-                "1",
-                "3",
-                "4",
-                "5",
-                "8",
-                "9",
-                "10",
-                "2021",
-                "1959"
+        int [] expected = {
+                1,
+                3,
+                4,
+                5,
+                8,
+                9,
+                10,
+                2021,
+                1959
         };
 
         // Act
-        String[] results = new String[numbers.length];
+        int[] results = new int[roman.length];
         for (int i = 0; i < results.length; i++) {
-            results[i] = parseRoman(numbers[i]).asArabic();
+            results[i] = RomanNumber.parse(roman[i]);
         }
 
         // Assert
-        for (int i = 0; i < numbers.length; i++) {
-            assertEquals(expected[i], results[i]);
+        for (int i = 0; i < roman.length; i++) {
+            Assertions.assertEquals(expected[i], results[i]);
         }
     }
 }
