@@ -82,7 +82,10 @@ public class RomanNumber {
                 .map(RomanNumber::arabicValue) // turn numerals into ints
                 .boxed()// turn ints into integers
                 .collect(Collectors.toList()); // create a mutable list
-        value = swallowNextDigit(transatedNumerals, 1,5, 10);
+        value = swallowNextDigit(transatedNumerals, 1000,5000, 10000);
+        value += swallowNextDigit(transatedNumerals, 100,500, 1000);
+        value += swallowNextDigit(transatedNumerals, 10,50, 100);
+        value += swallowNextDigit(transatedNumerals, 1,5, 10);
         if (transatedNumerals.size() > 0)
             throw new NumberFormatException("'" + validated + "' contains invalid characters or format");
         if (value < MIN_INT_VALUE || value > MAX_INT_VALUE)
@@ -111,6 +114,7 @@ public class RomanNumber {
     private static int swallowNextDigit(List<Integer> transatedNumerals, int one , int five, int ten)
             throws NumberFormatException{
         int value = 0;
+        int limit = 9 * one;
         // process most exclusive to most generic ...
         if (transatedNumerals.size() > 1 && transatedNumerals.get(0) == one && transatedNumerals.get(1) == ten)
             // a valid 9
@@ -121,20 +125,21 @@ public class RomanNumber {
         else if (transatedNumerals.size() > 0 && transatedNumerals.get(0) == five) {
             // a possible 5+
             value = transatedNumerals.remove(0); // remove the five
-            while (value < 9 && transatedNumerals.size() > 0 && transatedNumerals.get(0) == one)
+            while (value < limit && transatedNumerals.size() > 0 && transatedNumerals.get(0) == one)
                 value += transatedNumerals.remove(0); // remove the one
         } else if (transatedNumerals.size() > 0 && transatedNumerals.get(0) == one) {
             value = transatedNumerals.remove(0); // remove the one
             // strictly no more than 2 (or 3) following ones, but I am feeling lenient!
-            while (value < 9 && transatedNumerals.size() > 0 && transatedNumerals.get(0) == one)
+            while (value < limit && transatedNumerals.size() > 0 && transatedNumerals.get(0) == one)
                 value += transatedNumerals.remove(0); // remove the one
         } else {
             // check for invalid format
-            if (transatedNumerals.size() > 0 &&
-                    (transatedNumerals.get(0) == one) ||
-                    (transatedNumerals.get(0) == five) ||
-                    (transatedNumerals.get(0) == ten) ){
-                throw new NumberFormatException("Invalid order of roman numerals");
+            if (transatedNumerals.size() > 0) {
+                int possibleInvalid = transatedNumerals.get(0);
+                if ( //(possibleInvalid == one) ||
+                        (possibleInvalid == five) ||
+                        (possibleInvalid == ten) )
+                    throw new NumberFormatException("Invalid order of roman numerals");
             }
         }
         return value;
