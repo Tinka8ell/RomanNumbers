@@ -78,27 +78,133 @@ class RomanNumberTest {
     }
 
     @Test
-    public void checkValidParse() {
+    public void checkUnits() {
         // Arrange
         String [] roman = {
                 "I",
+                "II",
                 "III",
                 "IV",
                 "V",
+                "VI",
+                "VII",
                 "VIII",
-                "IX",
+                "IX"
+        };
+        int [] expected = {
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+        };
+
+        // Act
+        int[] results = new int[roman.length];
+        for (int i = 0; i < results.length; i++) {
+            results[i] = RomanNumber.parse(roman[i]);
+        }
+
+        // Assert
+        for (int i = 0; i < roman.length; i++) {
+            Assertions.assertEquals(expected[i], results[i], "For: " + roman[i]);
+        }
+    }
+
+    @Test
+    public void checkTens() {
+        // Arrange
+        String [] roman = {
                 "X",
+                "XX",
+                "xxx",
+                "XL",
+                "l",
+                "LX",
+                "lXx",
+                "LxXx",
+                "XC"
+        };
+        int [] expected = {
+                10,
+                20,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80,
+                90
+        };
+
+        // Act
+        int[] results = new int[roman.length];
+        for (int i = 0; i < results.length; i++) {
+            results[i] = RomanNumber.parse(roman[i]);
+        }
+
+        // Assert
+        for (int i = 0; i < roman.length; i++) {
+            Assertions.assertEquals(expected[i], results[i], "For: " + roman[i]);
+        }
+    }
+
+    @Test
+    public void checkHundreds() {
+        // Arrange
+        String [] roman = {
+                "C",
+                "cC",
+                "CcC",
+                "cD",
+                "d",
+                "Dc",
+                "dCc",
+                "DcCc",
+                "CM"
+        };
+        int [] expected = {
+                100,
+                200,
+                300,
+                400,
+                500,
+                600,
+                700,
+                800,
+                900
+        };
+
+        // Act
+        int[] results = new int[roman.length];
+        for (int i = 0; i < results.length; i++) {
+            results[i] = RomanNumber.parse(roman[i]);
+        }
+
+        // Assert
+        for (int i = 0; i < roman.length; i++) {
+            Assertions.assertEquals(expected[i], results[i], "For: " + roman[i]);
+        }
+    }
+
+    @Test
+    public void checkValidParse() {
+        // Arrange
+        String [] roman = {
+                "CXIV",
+                "CDXLIV",
+                "CMXCIX",
                 "MMXXI",
                 "MCMLIX"
         };
         int [] expected = {
-                1,
-                3,
-                4,
-                5,
-                8,
-                9,
-                10,
+                114,
+                444,
+                999,
                 2021,
                 1959
         };
@@ -111,7 +217,7 @@ class RomanNumberTest {
 
         // Assert
         for (int i = 0; i < roman.length; i++) {
-            Assertions.assertEquals(expected[i], results[i], roman[i]);
+            Assertions.assertEquals(expected[i], results[i], "For: " + roman[i]);
         }
     }
 }
