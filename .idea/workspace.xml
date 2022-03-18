@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be02df8a-8eb6-4679-a2bb-c6a50ad187ce" name="Changes" comment="Initial Setup">
+    <list default="true" id="be02df8a-8eb6-4679-a2bb-c6a50ad187ce" name="Changes" comment="Upped the UX&#10;Can be run as commandline with multiple values to parse&#10;Can also be run interactively with prompts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tinkabell/roman/RomanNumber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tinkabell/roman/RomanNumber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/tinkabell/roman/RomanNumberTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/tinkabell/roman/RomanNumberTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,10 +53,11 @@
       <recent name="com.tinkabell.roman" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.RomanNumberTest">
+  <component name="RunManager" selected="Application.RomanNumber">
     <configuration name="RomanNumber" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.tinkabell.roman.RomanNumber" />
       <module name="RomanNumbers" />
+      <option name="PROGRAM_PARAMETERS" value="I XX MMMMMMMMMMCMXCIX MMMMMMMMMCMXCIX" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.tinkabell.roman.*" />
@@ -101,9 +101,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.RomanNumber" />
         <item itemvalue="JUnit.RomanNumberTest" />
         <item itemvalue="JUnit.RomanNumberTest.checkAsRoman" />
-        <item itemvalue="Application.RomanNumber" />
       </list>
     </recent_temporary>
   </component>
@@ -123,7 +123,56 @@
       <option name="project" value="LOCAL" />
       <updated>1647500956445</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Create basic roman numeral creator and minimal test cases">
+      <created>1647515678869</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1647515678870</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Back to basics: KISS&#10;Tried to implement too quickly and too much complexity.&#10;This reverts to just do enough as we develop the code ...">
+      <created>1647535464715</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1647535464715</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Implemented the 2 sample use cases&#10;Very simple implementation, but works for some roman numbers">
+      <created>1647536489388</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1647536489388</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added extended validation&#10;Still not parsing &quot;subtractive notation&quot;">
+      <created>1647537778144</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1647537778145</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added digit swallower and separated out tests">
+      <created>1647605052544</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1647605052544</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Used swallower for all powers of ten">
+      <created>1647605834326</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1647605834327</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added test for the &quot;big one&quot;: MMMMMMMMMCMXCIX&#10;Also corrected some typos!">
+      <created>1647606873503</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1647606873503</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -139,6 +188,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial Setup" />
+    <MESSAGE value="Create basic roman numeral creator and minimal test cases" />
+    <MESSAGE value="Back to basics: KISS&#10;Tried to implement too quickly and too much complexity.&#10;This reverts to just do enough as we develop the code ..." />
+    <MESSAGE value="Implemented the 2 sample use cases&#10;Very simple implementation, but works for some roman numbers" />
+    <MESSAGE value="Added extended validation&#10;Still not parsing &quot;subtractive notation&quot;" />
+    <MESSAGE value="Added digit swallower and separated out tests" />
+    <MESSAGE value="Used swallower for all powers of ten" />
+    <MESSAGE value="Added test for the &quot;big one&quot;: MMMMMMMMMCMXCIX" />
+    <MESSAGE value="Added test for the &quot;big one&quot;: MMMMMMMMMCMXCIX&#10;Also corrected some typos!" />
+    <MESSAGE value="Upped the UX&#10;Can be run as commandline with multiple values to parse&#10;Can also be run interactively with prompts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Upped the UX&#10;Can be run as commandline with multiple values to parse&#10;Can also be run interactively with prompts" />
   </component>
 </project>

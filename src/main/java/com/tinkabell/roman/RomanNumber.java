@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A roman number is a natural number expressed as roman numerals.
@@ -148,9 +149,36 @@ public class RomanNumber {
         return value;
     }
 
-    public static String prompt(Scanner scanner, String s){
-        System.out.println(s);
+    /**
+     * Output the prompt string to the standard output
+     * and wait for a line of input and return it
+     *
+     * @param scanner - to read from stdin
+     * @param prompt - string to propmt user
+     * @return - string entered by user
+     */
+    public static String prompt(@NotNull Scanner scanner, String prompt){
+        System.out.println(prompt);
         return scanner.nextLine();
+    }
+
+    /**
+     * Parse the given string as roman numerals.
+     * Print the input string and it's value
+     * unless a NumberFormatError when we output the error message.
+     *
+     * @param s - String of roman numerals
+     * @return 1 if an error or 0 if ok
+     */
+    public static int parseAndPrint(String s){
+        int error = 0;
+        try {
+            System.out.println(s + " is " + RomanNumber.parse(s));
+        } catch (NumberFormatException e){
+            error = 1;
+            System.out.println(s + " returned NumberFormatException: " + e.getMessage());
+        }
+        return error;
     }
 
     public static void main(String[] args) {
@@ -158,18 +186,28 @@ public class RomanNumber {
         Console console = System.console();
         System.console() returns as null!
          */
-        Scanner scanner = new Scanner(System.in);
-        // System.out.println("Welcome to the Roman Number Translator");
-        System.out.println("Enter an empty line to exit");
-        String input = prompt(scanner, "Please enter a Roman Numeral");
-        int number = RomanNumber.parse(input.trim());
-        System.out.println(number);
-        /*
-        while (input.trim().length() > 0){
-            int number = RomanNumber.parse(input.trim());
-            System.out.println(number);
-            input = prompt(scanner,"Please enter another Roman Numeral");
+        if (args.length > 0) {
+            // command line input, just process args:
+            int errors = Arrays.stream(args)
+                    .map(s -> (s.split("/b")))
+                    .flatMap(Arrays::stream)
+                    .map(RomanNumber::parseAndPrint)
+                    .reduce(0, Integer::sum);
+            if (errors > 0) {
+                if (errors > 1)
+                    System.out.println(errors + " errors detected!");
+                else
+                    System.out.println(errors + " error detected!");
+            }
+        } else {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Welcome to the Roman Number Translator");
+            System.out.println("Enter an empty line to exit");
+            String input = prompt(scanner, "Please enter a Roman Numeral");
+            while (input.trim().length() > 0) {
+                parseAndPrint(input);
+                input = prompt(scanner, "Please enter another Roman Numeral");
+            }
         }
-             */
     }
 }
