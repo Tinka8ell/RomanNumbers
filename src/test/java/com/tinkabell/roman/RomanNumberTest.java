@@ -220,4 +220,10 @@ class RomanNumberTest {
             Assertions.assertEquals(expected[i], results[i], "For: " + roman[i]);
         }
     }
+
+    @Test
+    public void checkTheBigOne(){
+        Assertions.assertEquals(9999, RomanNumber.parse("MMMMMMMMMCMXCIX"));
+    }
+
 }

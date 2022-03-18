@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  */
 public class RomanNumber {
 
-    private static final int MAX_INT_VALUE = 4000 - 1;
+    private static final int MAX_INT_VALUE = 10000 - 1;
     private static final int MIN_INT_VALUE = 1;
 
     // the valid characters used to get an index
@@ -78,15 +78,15 @@ public class RomanNumber {
         String validated = s.trim().toUpperCase();
 
         // validate input only has valid characters
-        List<Integer> transatedNumerals = validated.chars()
+        List<Integer> translatedNumerals = validated.chars()
                 .map(RomanNumber::arabicValue) // turn numerals into ints
                 .boxed()// turn ints into integers
                 .collect(Collectors.toList()); // create a mutable list
-        value = swallowNextDigit(transatedNumerals, 1000,5000, 10000);
-        value += swallowNextDigit(transatedNumerals, 100,500, 1000);
-        value += swallowNextDigit(transatedNumerals, 10,50, 100);
-        value += swallowNextDigit(transatedNumerals, 1,5, 10);
-        if (transatedNumerals.size() > 0)
+        value = swallowNextDigit(translatedNumerals, 1000);
+        value += swallowNextDigit(translatedNumerals, 100);
+        value += swallowNextDigit(translatedNumerals, 10);
+        value += swallowNextDigit(translatedNumerals, 1);
+        if (translatedNumerals.size() > 0)
             throw new NumberFormatException("'" + validated + "' contains invalid characters or format");
         if (value < MIN_INT_VALUE || value > MAX_INT_VALUE)
             throw new NumberFormatException("Value of '" + validated + "' is " + value + " but this is out of range");
@@ -104,38 +104,41 @@ public class RomanNumber {
      * Anything else with one, five or ten is an error.
      * Any none one, five or ten is assumed to be part of the next digit and processed there.
      *
-     * @param transatedNumerals - list of numerals as their Integer values
-     * @param one - value of a unit (1, 10, 100 or 1000)
-     * @param five - value of a unit (5, 50 or 500) - zero iff processing 1000's
-     * @param ten - value of a unit (10, 100 or 1000) - zero iff processing 1000's
+     * @param translatedNumerals - list of numerals as their Integer values
+     * @param order - value of a unit (1, 10, 100 or 1000)
      * @return the value of this decimal digit in this place position (1, 10, 100 or 1000)
      * @throws NumberFormatException - with description if errors detected
      */
-    private static int swallowNextDigit(List<Integer> transatedNumerals, int one , int five, int ten)
+    private static int swallowNextDigit(List<Integer> translatedNumerals, int order)
             throws NumberFormatException{
-        int value = 0;
-        int limit = 9 * one;
+        // computationally 'one' and 'order' are equivalent, but here for the readability of the logic
+        @SuppressWarnings({"Warning:(115, 13) Local variable 'one' is redundant"})
+        int one = order;
+        int five = 5 * order;
+        int ten =  10 * order;
+        int value = 0;  // return 0 if no numerals in this order
+        int nine = ten - one;
         // process most exclusive to most generic ...
-        if (transatedNumerals.size() > 1 && transatedNumerals.get(0) == one && transatedNumerals.get(1) == ten)
+        if (translatedNumerals.size() > 1 && translatedNumerals.get(0) == one && translatedNumerals.get(1) == ten)
             // a valid 9
-            value = transatedNumerals.remove(1) - transatedNumerals.remove(0); // remove the ten and the one
-        else if (transatedNumerals.size() > 1 && transatedNumerals.get(0) == one && transatedNumerals.get(1) == five)
+            value = translatedNumerals.remove(1) - translatedNumerals.remove(0); // remove the ten and the one
+        else if (translatedNumerals.size() > 1 && translatedNumerals.get(0) == one && translatedNumerals.get(1) == five)
             // a valid 4
-            value = transatedNumerals.remove(1) - transatedNumerals.remove(0); // remove the five and the one
-        else if (transatedNumerals.size() > 0 && transatedNumerals.get(0) == five) {
+            value = translatedNumerals.remove(1) - translatedNumerals.remove(0); // remove the five and the one
+        else if (translatedNumerals.size() > 0 && translatedNumerals.get(0) == five) {
             // a possible 5+
-            value = transatedNumerals.remove(0); // remove the five
-            while (value < limit && transatedNumerals.size() > 0 && transatedNumerals.get(0) == one)
-                value += transatedNumerals.remove(0); // remove the one
-        } else if (transatedNumerals.size() > 0 && transatedNumerals.get(0) == one) {
-            value = transatedNumerals.remove(0); // remove the one
+            value = translatedNumerals.remove(0); // remove the five
+            while (value < nine && translatedNumerals.size() > 0 && translatedNumerals.get(0) == one)
+                value += translatedNumerals.remove(0); // remove the one
+        } else if (translatedNumerals.size() > 0 && translatedNumerals.get(0) == one) {
+            value = translatedNumerals.remove(0); // remove the one
             // strictly no more than 2 (or 3) following ones, but I am feeling lenient!
-            while (value < limit && transatedNumerals.size() > 0 && transatedNumerals.get(0) == one)
-                value += transatedNumerals.remove(0); // remove the one
+            while (value < nine && translatedNumerals.size() > 0 && translatedNumerals.get(0) == one)
+                value += translatedNumerals.remove(0); // remove the one
         } else {
             // check for invalid format
-            if (transatedNumerals.size() > 0) {
-                int possibleInvalid = transatedNumerals.get(0);
+            if (translatedNumerals.size() > 0) {
+                int possibleInvalid = translatedNumerals.get(0);
                 if ( //(possibleInvalid == one) ||
                         (possibleInvalid == five) ||
                         (possibleInvalid == ten) )
