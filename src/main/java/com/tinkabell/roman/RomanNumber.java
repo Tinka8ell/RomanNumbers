@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * A roman number is a natural number expressed as roman numerals.
@@ -27,6 +26,14 @@ import java.util.stream.Stream;
  * largest should be 4000-1 (as there is no '5' of thousands), but this
  * implementation will allow up to 9 units ('I', 'X', 'C' & 'M') to be
  * valid (if not correct) so gives a maximum of 10k-1.
+ *
+ * Logically each decimal digit (1000's, 100's, 10', 1') must follow
+ * in this order and for each "digit" consists of one of these 4 combinations:
+ *    one, ten => 9
+ *    one, five => 4
+ *    five, optional series of one's => 5 to 9
+ *    one, optional series of one's => 1 to 9
+ * Any following digits must be less than "one" at this level.
  */
 public class RomanNumber {
 
@@ -38,22 +45,127 @@ public class RomanNumber {
     // the values of those characters referenced by that index
     private final static int[] values = {1, 5, 10, 50, 100, 500, 1000};
 
+    /*
+    To process sequential numerals previous numerals will be summarised
+    by the following state:
+     */
+    private int value;  // total of previous digits
+    private int digit;  // value of current digit so far
+    private int order;  // value of a one at this digit position
+    private enum NextNumeral {
+        ONE, // only looking for one's
+        ONE_FIVE, // looking for one or five
+        ONE_FIVE_TEN // looking for one or five or ten
+    }
+    private NextNumeral lookingFor;
+    /*
+    Convenience values for this digit:
+     */
+    private int one;
+    private int five;
+    private int ten;
+
+    public RomanNumber(){
+        value = 0;
+        digit = 0;
+        setOrder(1000); // always start looking for thousands
+    }
+
+    private void nextOrder(){
+        // move to next digit
+        setOrder(order / 10); // next digit is 1/10 of th current one
+    }
+
+    private void setOrder(int newOrder){
+        // swallow current digit
+        value += digit;
+        digit = 0;
+        // start this digit
+        order = newOrder;
+        lookingFor = NextNumeral.ONE_FIVE; // always start looking for one or five
+        // set convenience values
+        one = order;
+        five = 5 * one;
+        ten = 10 * one;
+    }
+
+    public void nextNumeral(char numeral){
+        int arabic = arabicValue(numeral);
+        boolean swallowed = false; // not yet swallowed the numeral
+        while (! swallowed){
+            if (order < 1)
+                // this is an excess character ofter the end of the number
+                throw new NumberFormatException(numeral + " is out of sequence");
+            swallowed = true; // most outcomes will swallow the numeral
+            switch (lookingFor){
+                case ONE -> {
+                    if (arabic > one)
+                        throw new NumberFormatException(numeral + " is out of sequence");
+                    else if (arabic == one) {
+                        digit += one;
+                        if (digit >= ten)
+                            throw new NumberFormatException(numeral + " repeats too often");
+                    } else {
+                        // end this digit
+                        nextOrder();
+                        // and keep looking
+                        swallowed = false;
+                    }
+                }
+                case ONE_FIVE -> {
+                    if (arabic > five)
+                        throw new NumberFormatException(numeral + " is out of sequence");
+                    else if (arabic == one) {
+                        digit = one;
+                        lookingFor = NextNumeral.ONE_FIVE_TEN;
+                    } else if (arabic == five) {
+                        digit = five;
+                        lookingFor = NextNumeral.ONE;
+                    } else {
+                        // end this digit
+                        nextOrder();
+                        // and keep looking
+                        swallowed = false;
+                    }
+                }
+                case ONE_FIVE_TEN -> {
+                    if (arabic > ten)
+                        throw new NumberFormatException(numeral + " is out of sequence");
+                    else if (arabic == one) {
+                        digit += one;
+                        lookingFor = NextNumeral.ONE;
+                    } else if (arabic == five) {
+                        digit = five - one; // it is a four
+                        // end this digit
+                        nextOrder();
+                    } else if (arabic == ten) {
+                        digit = ten - one; // it is a nine
+                        // end this digit
+                        nextOrder();
+                    } else {
+                        // end this digit
+                        nextOrder();
+                        // and keep looking
+                        swallowed = false;
+                    }
+                }
+            }
+        }
+    }
+
+    public int getValue(){
+        return value + digit; // the current total value
+    }
+
     private static int arabicValue(int c) throws NumberFormatException {
         int value;
         try {
             value = values[numerals.indexOf(c)];
         } catch (ArrayIndexOutOfBoundsException e){
-            throw new NumberFormatException("Invalid character: " + (char) c);
+            throw new NumberFormatException("Invalid character: " + (char) c + ", value: " + c);
         }
         return value;
     }
-
-    /*
-    private RomanNumber(int i)
-            throws NumberFormatException{
-        value = i;
-    }
-     */
 
     /**
      * Parse the string argument as an unsigned roman number.
@@ -78,6 +190,7 @@ public class RomanNumber {
         int value;
         String validated = s.trim().toUpperCase();
 
+        /* Old parsing
         // validate input only has valid characters
         List<Integer> translatedNumerals = validated.chars()
                 .map(RomanNumber::arabicValue) // turn numerals into ints
@@ -89,11 +202,18 @@ public class RomanNumber {
         value += swallowNextDigit(translatedNumerals, 1);
         if (translatedNumerals.size() > 0)
             throw new NumberFormatException("'" + validated + "' contains invalid characters or format");
+           New parsing:
+        */
+        RomanNumber romanNumber = new RomanNumber();
+        validated.chars()
+                .forEachOrdered(numeral -> romanNumber.nextNumeral((char) numeral));
+        value = romanNumber.getValue();
+
+        // don't think the processing can give a value > MAX_INT_VALUE, but could be 0!
         if (value < MIN_INT_VALUE || value > MAX_INT_VALUE)
             throw new NumberFormatException("Value of '" + validated + "' is " + value + " but this is out of range");
         return value;
     }
-
 
     /**
      * Process roman numerals as the next decimal digit.
