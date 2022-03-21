@@ -297,7 +297,7 @@ public class RomanNumeral {
         // copy extra digits
         if (nextNumeral.ofOrder + 1 - nextNumeral.addOrder >= 0)
             System.arraycopy(
-                    nextNumeral.digits, nextNumeral.addOrder, 
+                    nextNumeral.digits, nextNumeral.addOrder,
                     digits, nextNumeral.addOrder,
                     nextNumeral.ofOrder + 1 - nextNumeral.addOrder);
         goodNumerals.append(nextNumeral.goodNumerals);
